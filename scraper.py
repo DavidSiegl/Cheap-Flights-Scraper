@@ -76,7 +76,7 @@ modified_url = re.sub(r"ow\/*\w+\/\w+", "ow/" + departure_airport + "/" + depart
 modified_url = re.sub(r"(\d\d\.\d\d\.\d\d\d\d\/)(\w+\/\w+)", lambda match: match.group(1) + arrival_airport + "/" + arrival_airport, modified_url, count=1)
 driver.get(modified_url)
 
-time.sleep(3)
+time.sleep(5)
 driver.find_element(By.XPATH, "//button[@data-testid='filter_transferCount_1']").click() # setting max. 1 transfer
 
 time.sleep(10)
@@ -96,7 +96,11 @@ for i in range(1, 18):
             arrival = driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div/div/div/main/div[1]/div/div[2]/div/div[2]/div[1]/div[" + str(i) + "]/div[1]/div/div/div[1]/div[3]/strong").text
             price = driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div/div/div/main/div[1]/div/div[2]/div/div[2]/div[1]/div[" + str(i) + "]/div[2]/div/div[3]/div[1]/strong").text
             stops = driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div/div/div/main/div[1]/div/div[2]/div/div[2]/div[1]/div[" + str(i) + "]/div[1]/div/div/div[1]/div[2]/span[2]").text
-            line = driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div/div/div/main/div[1]/div/div[2]/div/div[2]/div[1]/div[" + str(i) + "]/div[1]/div/div/div[2]/div/span").text
+            try: # checking for airport change expection
+                driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div/div/div/main/div[1]/div/div[2]/div/div[2]/div[1]/div[" + str(i) + "]/div[1]/div/div/div[2]/span")
+                line = driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div/div/div/main/div[1]/div/div[2]/div/div[2]/div[1]/div[" + str(i) + "]/div[1]/div/div/div[3]/div/span").text
+            except NoSuchElementException:
+                line = driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div/div/div/main/div[1]/div/div[2]/div/div[2]/div[1]/div[" + str(i) + "]/div[1]/div/div/div[2]/div/span").text
             ls_temp.append(departure_airport)
             ls_temp.append(arrival_airport)
             ls_temp.append(departure)
