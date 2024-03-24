@@ -8,11 +8,11 @@ import time
 import re
 import csv
 import argparse
-
+import sys
 
 parser = argparse.ArgumentParser(
     prog = "A webscraper for detecting cheap flights",
-    description = "A Webscraper tool for detecting cheap flights by scraping the website 'flug.check24.de' for a given flight route. The retrieved data is then generated and saved as a .csv file within the current working directory.",
+    description = "A webscraper tool for detecting cheap flights by scraping the website 'flug.check24.de' for a given one-way flight route. The retrieved data is then generated and saved as a .csv file within the current working directory.",
 )
 
 parser.add_argument("-d", "--departure_airport", dest="departure_airport", required=True, type=str, help="Required: Provide the 3-letter code of your departure airport (e. g. VIE for Vienna).")
@@ -29,6 +29,10 @@ flight_date = args.flight_date
 passengers = args.passengers
 travel_time = args.travel_time
 
+pattern = re.compile(r'^\d{4}-\d{2}-\d{2}$')
+if not re.match(pattern, flight_date):
+    print("Invalid date format. Please enter date in the format YYYY-MM-DD.")
+    sys.exit(1)
 
 driver = webdriver.Firefox(service=Service(executable_path=GeckoDriverManager().install()))
 
@@ -79,7 +83,7 @@ driver.get(modified_url)
 time.sleep(5)
 driver.find_element(By.XPATH, "//button[@data-testid='filter_transferCount_1']").click() # setting max. 1 transfer
 
-time.sleep(10)
+time.sleep(20)
 driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div/div/div/main/div[1]/div/div[2]/div/div[2]/ul/li[2]/button").click()
 
 # retrieving flights data (excluding banner elements in loop)
