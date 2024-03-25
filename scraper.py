@@ -103,7 +103,7 @@ for i in range(1, 18):
             arrival = driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div/div/div/main/div[1]/div/div[2]/div/div[2]/div[1]/div[" + str(i) + "]/div[1]/div/div/div[1]/div[3]/strong").text
             price = driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div/div/div/main/div[1]/div/div[2]/div/div[2]/div[1]/div[" + str(i) + "]/div[2]/div/div[3]/div[1]/strong").text
             stops = driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div/div/div/main/div[1]/div/div[2]/div/div[2]/div[1]/div[" + str(i) + "]/div[1]/div/div/div[1]/div[2]/span[2]").text
-            try: # checking for airport change expection
+            try: # checking for airport change exception
                 driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div/div/div/main/div[1]/div/div[2]/div/div[2]/div[1]/div[" + str(i) + "]/div[1]/div/div/div[2]/span")
                 line = driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div/div/div/main/div[1]/div/div[2]/div/div[2]/div[1]/div[" + str(i) + "]/div[1]/div/div/div[3]/div/span").text
             except NoSuchElementException:
