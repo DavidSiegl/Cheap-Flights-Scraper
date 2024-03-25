@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.firefox.options import Options 
 from selenium.webdriver.common.by import By
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.common.keys import Keys
@@ -34,7 +35,9 @@ if not re.match(pattern, flight_date):
     print("Invalid date format. Please enter date in the format YYYY-MM-DD.")
     sys.exit(1)
 
-driver = webdriver.Firefox(service=Service(executable_path=GeckoDriverManager().install()))
+options = Options()
+options.add_argument("--headless")
+driver = webdriver.Firefox(options=options, service=Service(executable_path=GeckoDriverManager().install()))
 
 driver.get("https://flug.check24.de/")
 
@@ -83,7 +86,7 @@ driver.get(modified_url)
 time.sleep(5)
 driver.find_element(By.XPATH, "//button[@data-testid='filter_transferCount_1']").click() # setting max. 1 transfer
 
-time.sleep(20)
+time.sleep(15)
 driver.find_element(By.XPATH, "/html/body/div[3]/div[2]/div/div/div/main/div[1]/div/div[2]/div/div[2]/ul/li[2]/button").click()
 
 # retrieving flights data (excluding banner elements in loop)
